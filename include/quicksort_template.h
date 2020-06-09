@@ -3,7 +3,7 @@ struct Bigger_int;
 struct Less_int;
 void swap(int &a, int &b);
 
-template <typename T, typename bigger, typename less>
+template <typename T, typename bigger=Bigger_int,typename less=Less_int>
 void quicksort1(T *array, int left, int right)
 {
     if (left >= right)
@@ -26,30 +26,32 @@ void quicksort1(T *array, int left, int right)
     }
     array[left] = array[rightCursor];
     array[rightCursor] = pivot;
-    quicksort1<T, bigger, less>(array, left, rightCursor - 1);
-    quicksort1<T, bigger, less>(array, rightCursor + 1, right);
+    quicksort1<T>(array, left, rightCursor - 1);
+    quicksort1<T>(array, rightCursor + 1, right);
 };
 
-template <typename T, typename bigger>
-int indexOfMax(T *array, int size, bigger bigger_int = bigger())
+template <typename T, typename less>
+int indexOfMax(T *array, int size)
 {
+    int max=0;
     for (int i = 0; i < size - 1; ++i)
     {
-        if (bigger_int(array[i], array[i + 1]))
+        if (less()(array[max], array[i + 1]))
         {
-            swap(array[i], array[i + 1]);
-        }
+            max=i+1;
+        }  
     }
+    return max;
 }
 
-template <typename T>
+template <typename T, typename bigger=Bigger_int,typename less=Less_int>
 void quicksort(T *array, int size)
 {
     if (size <= 1)
         return;
-    int max = indexOfMax<T, Bigger_int>(array, size);
+    int max = indexOfMax<T, Less_int>(array, size);
     swap(array[size - 1], array[max]);
-    quicksort1<T, Bigger_int, Less_int>(array, 0, size - 2);
+    quicksort1<T>(array, 0, size - 2);
 }
 
 void swap(int &a, int &b)
@@ -58,25 +60,18 @@ void swap(int &a, int &b)
     a = b;
     b = tmp;
 }
-struct Less_int
-{
-public:
-    bool operator()(const int &a, const int &b) const
-    {
-        if (a < b)
-            return true;
-        else
-            return false;
-    }
-};
+
 struct Bigger_int
 {
-public:
     bool operator()(const int &a, const int &b) const
     {
-        if (a > b)
-            return true;
-        else
-            return false;
+        return a > b;
+    }
+};
+struct Less_int
+{
+    bool operator()(const int &a, const int &b) const
+    {
+        return a < b;
     }
 };

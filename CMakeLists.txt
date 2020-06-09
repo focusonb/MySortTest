@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 # debug
 set(CMAKE_BUILD_TYPE "Debug")
 
-include_directories(/usr/include/c++/7)
+#include_directories(/usr/include/c++/7)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 #add module directory
@@ -14,6 +14,8 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 #include_directories(/usr/include/c++/7)
 
 aux_source_directory(src list)
+aux_source_directory(newhandle list2)
 
+add_executable(newhandle ${list2})
 add_executable(bubble ${list})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

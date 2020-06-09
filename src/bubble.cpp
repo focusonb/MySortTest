@@ -1,13 +1,12 @@
-#define showresult 
+// #define showresult 
 #define BUBBLE_SORT 1
 #define QUICK_SORT 2
 #define QUICK_SORT_TEMPLATE 3
 #define VECTORSORT 4
 #define MYQUICKSORT 5
-#define MYSORT 5
+#define MYSORT 3
 #include <iostream>
 #include <chrono>
-#include <vector>
 #include <algorithm>
 #include "randnum.h"
 
@@ -19,18 +18,19 @@
 #include "quicksort1.h"
 #elif (MYSORT==QUICK_SORT)
 #include "quicksort.h"
+#elif MYSORT==VECTORSORT
+#include <vector>
 #endif
 
 using namespace std;
 
 int main()
 {
-    // const long double time_begin = time(NULL)*1000;
-
     using namespace chrono;
-    int size = 100;
+    int size = 100000000;
     RandNum a(size);
     int *begin = a.getptr();
+
 #if MYSORT==VECTORSORT
     vector<int> vec(size);
     for (int i = 0; i < size; ++i)
