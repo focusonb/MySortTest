@@ -15,7 +15,10 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 aux_source_directory(src list)
 aux_source_directory(newhandle list2)
+aux_source_directory(test list3)
 
 add_executable(newhandle ${list2})
 add_executable(bubble ${list})
+add_executable(test ${list3})
+
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

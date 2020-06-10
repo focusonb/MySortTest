@@ -1,3 +1,5 @@
+#pragma once
+
 void quicksort(int *array, int left, int right);
 void swap(int &a, int &b);
 int indexOfMax(int *array, int size);

@@ -1,3 +1,4 @@
+#pragma once
 void quicksort(int *begin, int size);
 //void binaryarray(int size,int* begin);
 void swapvalue(int size, int *begin, int &mid);

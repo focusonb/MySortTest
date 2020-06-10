@@ -1,3 +1,4 @@
+#pragma once
 void quicksort(int *begin, int size);
 void swapvalue(int size, int *&begin, int &mid);
 void quicksort(int *begin, int size)

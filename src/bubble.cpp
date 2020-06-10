@@ -1,4 +1,4 @@
-// #define showresult 
+// #define showresult
 #define BUBBLE_SORT 1
 #define QUICK_SORT 2
 #define QUICK_SORT_TEMPLATE 3
@@ -6,19 +6,19 @@
 #define MYQUICKSORT 5
 #define MYSORT 3
 #include <iostream>
-#include <chrono>
 #include <algorithm>
 #include "randnum.h"
+#include "timecount.h"
 
-#if (MYSORT==QUICK_SORT_TEMPLATE)
+#if (MYSORT == QUICK_SORT_TEMPLATE)
 #include "quicksort_template.h"
-#elif (MYSORT==BUBBLE_SORT)
+#elif (MYSORT == BUBBLE_SORT)
 #include "bubblesort.h"
-#elif MYSORT==MYQUICKSORT
+#elif MYSORT == MYQUICKSORT
 #include "quicksort1.h"
-#elif (MYSORT==QUICK_SORT)
+#elif (MYSORT == QUICK_SORT)
 #include "quicksort.h"
-#elif MYSORT==VECTORSORT
+#elif MYSORT == VECTORSORT
 #include <vector>
 #endif
 
@@ -31,7 +31,7 @@ int main()
     RandNum a(size);
     int *begin = a.getptr();
 
-#if MYSORT==VECTORSORT
+#if MYSORT == VECTORSORT
     vector<int> vec(size);
     for (int i = 0; i < size; ++i)
     {
@@ -39,28 +39,28 @@ int main()
     }
 #endif
 
-    high_resolution_clock::time_point t1 = high_resolution_clock::now();
+    TimeCount timmer;
+    timmer.setbegin();
 
-#if MYSORT==BUBBLE_SORT
+#if MYSORT == BUBBLE_SORT
     bubblesort(begin, size);
-#elif MYSORT==QUICK_SORT||MYSORT==MYQUICKSORT
+#elif MYSORT == QUICK_SORT || MYSORT == MYQUICKSORT
     quicksort(begin, size);
-#elif MYSORT==QUICK_SORT_TEMPLATE
+#elif MYSORT == QUICK_SORT_TEMPLATE
     quicksort<int>(begin, size);
-#elif MYSORT==VECTORSORT
+#elif MYSORT == VECTORSORT
     sort(vec.begin(), vec.end());
 #endif
 
-    high_resolution_clock::time_point t2 = high_resolution_clock::now();
-    duration<double, std::milli> time_span = t2 - t1;
+    timmer.setend();
 
 #ifdef showresult
-#if MYSORT!=VECTORSORT
+#if MYSORT != VECTORSORT
     for (int i = 0; i < size; ++i)
     {
         cout << *(begin + i) << endl;
     }
-#else 
+#else
     for (int i = 0; i < size; ++i)
     {
         cout << vec[i] << endl;
@@ -68,6 +68,6 @@ int main()
 #endif
 #endif
 
-    std::cout << "It took me " << time_span.count() << " milliseconds.";
+    timmer.showtime();
     return 0;
 }

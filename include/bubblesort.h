@@ -1,3 +1,4 @@
+#pragma once
 void findmax(int size, int *begin, int &tmp);
 
 void bubblesort(int *array, int size)

@@ -1,10 +1,13 @@
+#pragma once
+bool bigger(const int &a, const int &b);
+bool less(const int &a, const int &b);
 
-struct Bigger_int;
-struct Less_int;
+
 void swap(int &a, int &b);
 
-template <typename T, typename bigger=Bigger_int,typename less=Less_int>
-void quicksort1(T *array, int left, int right)
+template <typename T>
+void quicksort1(T *array, int left, int right,bool (*bigger)(const int &a, const int &b),
+bool (*less)(const int &a, const int &b))
 {
     if (left >= right)
         return;
@@ -15,43 +18,44 @@ void quicksort1(T *array, int left, int right)
         do
         {
             leftCursor++;
-        } while (less()(array[leftCursor], pivot));
+        } while ((*less)(array[leftCursor], pivot));
         do
         {
             rightCursor--;
-        } while (bigger()(array[rightCursor], pivot));
+        } while ((*bigger)(array[rightCursor], pivot));
         if (leftCursor >= rightCursor)
             break;
         swap(array[leftCursor], array[rightCursor]);
     }
     array[left] = array[rightCursor];
     array[rightCursor] = pivot;
-    quicksort1<T>(array, left, rightCursor - 1);
-    quicksort1<T>(array, rightCursor + 1, right);
+    quicksort1<T>(array, left, rightCursor - 1,bigger,less);
+    quicksort1<T>(array, rightCursor + 1, right,bigger,less);
 };
 
-template <typename T, typename less>
-int indexOfMax(T *array, int size)
+template <typename T>
+int indexOfMax(T *array, int size,bool (*less)(const int &a, const int &b))
 {
-    int max=0;
+    int max = 0;
     for (int i = 0; i < size - 1; ++i)
     {
-        if (less()(array[max], array[i + 1]))
+        if ((*less)(array[max], array[i + 1]))
         {
-            max=i+1;
-        }  
+            max = i + 1;
+        }
     }
     return max;
 }
 
-template <typename T, typename bigger=Bigger_int,typename less=Less_int>
+template <typename T>
 void quicksort(T *array, int size)
 {
+    bool less(const int &a, const int &b);
     if (size <= 1)
         return;
-    int max = indexOfMax<T, Less_int>(array, size);
+    int max = indexOfMax<T>(array, size,less);
     swap(array[size - 1], array[max]);
-    quicksort1<T>(array, 0, size - 2);
+    quicksort1<T>(array, 0, size - 2,bigger,less);
 }
 
 void swap(int &a, int &b)
@@ -61,17 +65,12 @@ void swap(int &a, int &b)
     b = tmp;
 }
 
-struct Bigger_int
+bool bigger(const int &a, const int &b)
 {
-    bool operator()(const int &a, const int &b) const
-    {
-        return a > b;
-    }
-};
-struct Less_int
+    return a > b;
+}
+
+bool less(const int &a, const int &b)
 {
-    bool operator()(const int &a, const int &b) const
-    {
-        return a < b;
-    }
-};
+    return a < b;
+}
